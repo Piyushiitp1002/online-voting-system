@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e-Voting Home page</title>
+
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+  <header class="header">
+    <h2>Welcome to e-Voting Platform</h2>
+    <p>Secure. Fast. Reliable Voting System</p>
+    <h2>e-Voting Platform</h2>
+  </header>
+
+  <!-- Menu animation 3 line -->
+  <label>
+    <input type="checkbox">
+    <div class="toggle">
+      <span class="top_line common"></span>
+      <span class="middle_line common"></span>
+      <span class="bottom_line common"></span>
+    </div>
+
+    <!-- Menu button -->
+    <div class="slide">
+      <h1>MENU BAR</h1>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-tv"></i> Home</a></li>
+        <li><a href="elections.html"><i class="fa fa-calendar"></i> Elections</a></li>
+        <li><a href="results.html"><i class="fa fa-chart-bar"></i> Results</a></li>
+        <li id="loginLinkItem"><a href="login.html"><i class="fa fa-sign-in-alt"></i> Profile</a></li>
+
+       <li id="profileLinkItem" style="display:none;"><a href="login.html"><i class="fa fa-user"></i> Profile</a></li>
+        <li><a href="Admin.html"><i class="fa fa-cog"></i> Admin</a></li>
+        <li><a href="report.html"><i class="fa fa-file-alt"></i> Report</a></li>
+        <li><a href="contact.html"><i class="fa fa-envelope"></i> Contact Us</a></li>
+      </ul>
+    </div>
+  </label>
+
+  <main class="content">
+    <section class="content-section">
+      <h3>Event</h3>
+      <p>Display current election details here.</p>
+      <p>Available elections:</p>
+      <hr>
+    </section>
+
+    <section class="content-section">
+      <h3>News / Article</h3>
+      <p>Display latest election-related news and articles.</p>
+      <p>Available articles:-</p>
+      <hr>
+    </section>
+
+    <section class="content-section">
+      <h3>Notices</h3>
+      <p>Display important notices for voters and candidates.</p>
+      <p>Available notices:</p>
+      <hr>
+    </section>
+  </main>
+
+  <footer>
+    <p>@developed by Ranveer Raj, Rishikesh Raj, Piyush Raj, Piyush Raj, Mayank Raj</p>
+    <p>&copy; 2025 e-Voting Platform. All rights reserved.</p>
+    <p>Contact us: support@e-voting.com</p>
+  </footer>
+
+  <!-- Login/Profile logic -->
+  <script>
+    const voterId = localStorage.getItem("voter_id");
+    const loginItem = document.getElementById("loginLinkItem");
+    const profileItem = document.getElementById("profileLinkItem");
+
+    if (voterId) {
+      loginItem.style.display = "none";
+      profileItem.style.display = "list-item";
+    } else {
+      loginItem.style.display = "list-item";
+      profileItem.style.display = "none";
+    }
+  </script>
+</body>
+
+</html>

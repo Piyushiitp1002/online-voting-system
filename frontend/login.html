@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login & Signup</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(120deg, #89f7fe, #66a6ff);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    form input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      font-size: 16px;
+    }
+
+    form input[type="submit"] {
+      background-color: #66a6ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form input[type="submit"]:hover {
+      background-color: #4d9ae8;
+    }
+
+    .toggle {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .toggle a {
+      color: #66a6ff;
+      cursor: pointer;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .toggle a:hover {
+      text-decoration: underline;
+    }
+
+    .form-section {
+      display: none;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 id="formTitle">Login</h2>
+
+    <!-- Login Form -->
+    <div class="form-section active" id="loginSection">
+      <form id="loginForm">
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="submit" value="Login" />
+      </form>
+      <div class="toggle">Don't have an account? <a onclick="toggleForm('signup')">Signup</a></div>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="form-section" id="signupSection">
+      <form id="signupForm">
+        <input type="text" name="name" placeholder="Full Name" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <input type="password" name="password" placeholder="Password" required />
+        <input type="submit" value="Signup" />
+      </form>
+      <div class="toggle">Already have an account? <a onclick="toggleForm('login')">Login</a></div>
+    </div>
+  </div>
+
+  <script>
+    const loginSection = document.getElementById("loginSection");
+    const signupSection = document.getElementById("signupSection");
+    const formTitle = document.getElementById("formTitle");
+
+    function toggleForm(type) {
+      if (type === "signup") {
+        loginSection.classList.remove("active");
+        signupSection.classList.add("active");
+        formTitle.textContent = "Signup";
+      } else {
+        signupSection.classList.remove("active");
+        loginSection.classList.add("active");
+        formTitle.textContent = "Login";
+      }
+    }
+
+    // ✅ Handle Login
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      fetch("http://localhost:8001/VotingSystem/login", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        if (data.status === "success") {
+          window.location.href = "dashboard.html";
+        }
+      })
+      .catch(err => {
+        alert("Login failed. Please try again.");
+      });
+    });
+
+    // ✅ Handle Signup
+    document.getElementById("signupForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const formData = new FormData(this);
+
+      fetch("https://be89-2405-201-a417-60e6-30eb-d19d-3a6f-601e.ngrok-free.app//VotingSystem/register", {
+        method: "POST",
+        body: formData
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert(data.message);
+        if (data.status === "success") {
+          toggleForm('login');
+        }
+      })
+      .catch(err => {
+        alert("Signup failed. Please try again.");
+      });
+    });
+  </script>
+</body>
+</html>

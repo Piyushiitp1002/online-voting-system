@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>e-Voting Home page</title>
+
+  <link rel="stylesheet" type="text/css" href="voters.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+
+<body>
+  <header class="header">
+    <h2>Welcome to e-Voting Platform</h2>
+    <p>Secure. Fast. Reliable Voting System</p>
+    <h2>e-Voting Platform</h2>
+  </header>
+
+  <!-- Menu -->
+  <label>
+    <input type="checkbox">
+    <div class="toggle">
+      <span class="top_line common"></span>
+      <span class="middle_line common"></span>
+      <span class="bottom_line common"></span>
+    </div>
+    <div class="slide">
+      <h1>MENU BAR</h1>
+      <ul>
+        <li><a href="index.html"><i class="fas fa-tv"></i> Home</a></li>
+        <li><a href="elections.html"><i class="fa fa-calendar"></i> Elections</a></li>
+        <li><a href="results.html"><i class="fa fa-chart-bar"></i> Results</a></li>
+        <li><a href="login.html"><i class="fa fa-user"></i> Profile</a></li>
+        <li><a href="Admin.html"><i class="fa fa-cog"></i> Admin</a></li>
+        <li><a href="report.html"><i class="fa fa-file-alt"></i> Report</a></li>
+        <li><a href="contact.html"><i class="fa fa-envelope"></i> Contact Us</a></li>
+      </ul>
+    </div>
+  </label>
+
+  <section class="content-section">
+    <h2>Your Profile</h2>
+    <p>Name: <span id="voterName">John Doe</span></p>
+    <p>Voter ID: <span id="voterId">Loading...</span></p>
+    <p>Constituency: XYZ Ward</p>
+  </section>
+
+  <section class="content-section">
+    <h2>Cast Your Vote</h2>
+    <form method="POST" action="/vote" id="voteForm">
+      <div id="partyList">Loading parties...</div>
+      <button type="submit">Submit Vote</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>@developed by Ranveer Raj, Rishikesh Raj, Piyush Raj, Piyush Raj, Mayank Raj</p>
+    <p>&copy; 2025 e-Voting Platform. All rights reserved.</p>
+    <p>Contact us: support@e-voting.com</p>
+  </footer>
+
+  <!-- ✅ JS: Inject voter_id & fetch party list from backend -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const voterId = localStorage.getItem("voter_id");
+
+      if (!voterId) {
+        alert("No Voter ID found. Please login first.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Display voter ID
+      document.getElementById("voterId").textContent = voterId;
+
+      // Inject hidden input into vote form
+      const hiddenInput = document.createElement("input");
+      hiddenInput.type = "hidden";
+      hiddenInput.name = "voter_id";
+      hiddenInput.value = voterId;
+      document.getElementById("voteForm").appendChild(hiddenInput);
+
+      // Fetch party list from /elections
+      fetch("/elections")
+        .then(res => res.text())
+        .then(html => {
+          document.getElementById("partyList").innerHTML = html;
+        })
+        .catch(err => {
+          console.error("Failed to load parties:", err);
+          document.getElementById("partyList").innerHTML = "<p>Unable to load parties. Try again later.</p>";
+        });
+    });
+  </script>
+</body>
+
+</html>
